@@ -1,24 +1,40 @@
-const btn = document.getElementById("btn");
+// const btn = document.getElementById("btn");
 // By default typescript will assume btn type will be HTMLElement | null so one solution is to use ?
 
-btn?.addEventListener("click", function () {
-  alert("CLICKED!!!");
-});
+// btn?.addEventListener("click", function () {
+//   alert("CLICKED!!!");
+// });
 
 // We can also use Typescript Non Null Assertion Operator !
 // with TypeScript Non Null Assertion Operator
 // It will tell TypeScript don't worry we assure btn will not be null
 // Type Assertions -> button and input will have HTMLElement as parent class by default, but to make specific type we use as keyword
 // and specify HTMLButtonElement or HTMLInputElement
-const bton = document.getElementById("btn")! as HTMLButtonElement;
+const btn = document.getElementById("btn")! as HTMLButtonElement;
 const input = document.getElementById("todoinput")! as HTMLInputElement;
-input;
+const form = document.querySelector("form")!;
+const list = document.getElementById("todolist")!;
 
-bton.addEventListener("click", function () {
-  alert(input.value);
+function handleSubmit(e: SubmitEvent) {
+  e.preventDefault();
+  const newTodoText = input.value;
+  const newLI = document.createElement("li");
+  if (input.value === "") {
+    alert("Input is empty");
+    return;
+  }
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  newLI.append(newTodoText);
+  newLI.append(checkbox);
+  list.append(newLI);
+  console.log("SUBMITTED!");
   input.value = "";
-});
+}
 
-let mystery: unknown = "Hello World!!!";
+form.addEventListener("submit", handleSubmit);
 
-const numChars = (mystery as string).length;
+// btn.addEventListener("click", function () {
+//   alert(input.value);
+//   input.value = "";
+// });
