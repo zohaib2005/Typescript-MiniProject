@@ -1,11 +1,18 @@
 "use strict";
 // const btn = document.getElementById("btn");
 // By default typescript will assume btn type will be HTMLElement | null so one solution is to use ?
-const todos = [];
 const btn = document.getElementById("btn");
 const input = document.getElementById("todoinput");
 const form = document.querySelector("form");
 const list = document.getElementById("todolist");
+const todos = readTodos();
+todos.forEach(createTodo);
+function readTodos() {
+    const todosJSON = localStorage.getItem("todos");
+    if (todosJSON === null)
+        return [];
+    return JSON.parse(todosJSON);
+}
 function handleSubmit(e) {
     e.preventDefault();
     const newTodo = {
@@ -14,14 +21,11 @@ function handleSubmit(e) {
     };
     createTodo(newTodo);
     todos.push(newTodo);
+    localStorage.setItem("todos", JSON.stringify(todos));
     input.value = "";
 }
 function createTodo(todo) {
     const newLI = document.createElement("li");
-    if (input.value === "") {
-        alert("Input is empty");
-        return;
-    }
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     newLI.append(todo.text);
